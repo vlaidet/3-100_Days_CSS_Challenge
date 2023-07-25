@@ -1,0 +1,309 @@
+/**
+* * IMPORTANT: I've built this challenge dynamically, 
+* * so modifying the variables below will modify the rendering.
+**/
+
+
+// * VARIABLES
+$bg: #272C34;
+
+$radius__circle: 90px;
+
+$height__sky: 124px;
+$bg__sky: #7DDFFC;
+$bg__night__sky: #272C34;
+
+$height__sun: 34px;
+$width__sun: 34px;
+$bg__sunrise: #F57209;
+$bg__sun: #FFEF00;
+$bg__sunset: #F57209;
+
+$bg__dawn__left__side: #F4F4F4;
+$bg__afternoon__left__side: #DDDADA;
+$bg__night__left__side: #272C34;
+$bg__right__side: #DDDADA;
+
+$bg__dawn__ground: #F0DE75;
+$bg__afternoon__ground: #F0DE75;
+$bg__night__ground: #272C34;
+
+$height__shadow: 30px;
+$bg__shadow: rgba(0, 0, 0, 0.2);
+
+// use only the available space inside the 400x400 frame
+.frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  margin-top: -200px;
+  margin-left: -200px;
+  border-radius: 2px;
+	box-shadow: 4px 8px 16px 0 rgba(0,0,0,0.1);
+	overflow: hidden;
+  background: #fff;
+  color: #333;
+	font-family: 'Open Sans', Helvetica, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+  background-color: $bg;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.circle {
+  position: relative;
+  clip-path: circle($radius__circle at center);
+  background-color: #fff;
+  height: calc(#{$radius__circle} * 2);
+  width: calc(#{$radius__circle} * 2);
+  overflow: hidden;
+
+  .sky {
+    position: relative;
+    left: 0;
+    top: 0;
+    height: $height__sky;
+    width: 100%;
+    background-color: $bg__sky;
+    animation: sky-turns-black 4s cubic-bezier(0.4, 0, 0.49, 1) infinite;
+  }
+
+  .sun {
+    position: absolute;
+    top: 7px;
+    left: calc(#{$radius__circle} - (#{$width__sun} / 2));
+    width: $width__sun;
+    height: $height__sun;
+    background-color: $bg__sun;
+    border-radius: 50%;
+    z-index: 2;
+    transform-origin: 50% 400%;
+    animation: sun-goes-down 4s cubic-bezier(0.4, 0, 0.49, 1) infinite;
+  }
+
+  .left__side {
+    position: absolute;
+    top: calc(#{$height__sky} - (#{$height__sky} / 2.17));
+    left: calc( ((#{$radius__circle} * 2) - (#{$radius__circle} * 2) / 1.55) / 2 );
+    height: calc(#{$height__sky} / 2.17);
+    width: calc((#{$radius__circle} * 2) / 1.55);
+    background-color: $bg__dawn__left__side;
+    clip-path: polygon(0% 100%, 100% 100%, 50% 0%);
+    animation: pyramide-shading 4s cubic-bezier(0.4, 0, 0.49, 1) infinite;
+  }
+
+  .right__side {
+    position: absolute;
+    top: calc(#{$height__sky} - (#{$height__sky} / 2.17));
+    left: $radius__circle;
+    height: calc(#{$height__sky} / 2.17);
+    width: calc((#{$radius__circle} * 2) / 3.10);
+    background-color: $bg__right__side;
+    clip-path: polygon(30% 100%, 100% 100%, 0% 0%);
+    animation: pyramide-shading 4s cubic-bezier(0.4, 0, 0.49, 1) infinite reverse;
+  }
+
+  .shadow {
+    position: absolute;
+    top: $height__sky;
+    left: -80px;
+    height: $height__shadow;
+    width: calc(#{$radius__circle} * 4);
+    background: $bg__shadow;
+    z-index: 2;
+    transform-origin: 50% 0%;
+    animation: shadow-on-the-floor 4s cubic-bezier(0.4, 0, 0.49, 1) infinite;
+  }
+
+  .ground {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    height: calc((#{$radius__circle} * 2) - #{$height__sky});
+    background-color: $bg__dawn__ground;
+    animation: fading-sand 4s cubic-bezier(0.4, 0, 0.49, 1) infinite;
+  }
+}
+
+// * ANIMATIONS
+@-webkit-keyframes sun-goes-down {
+  0% {
+    background: $bg__sunrise;
+    transform: rotate(-70deg);
+  }
+  30% {
+    background: $bg__sun;
+    transform: rotate(-28deg);
+  }
+  70% {
+    background: $bg__sun;
+  }
+  100% {
+    background: $bg__sunset;
+    transform: rotate(70deg);
+  }
+}
+
+@keyframes sun-goes-down {
+  0% {
+    background: $bg__sunrise;
+    transform: rotate(-70deg);
+  }
+  30% {
+    background: $bg__sun;
+    transform: rotate(-28deg);
+  }
+  70% {
+    background: $bg__sun;
+  }
+  100% {
+    background: $bg__sunset;
+    transform: rotate(70deg);
+  }
+}
+
+@-webkit-keyframes sky-turns-black {
+  0% {
+    background: $bg__night__sky;
+  }
+  30% {
+    background: $bg__sky;
+  }
+  70% {
+    background: $bg__sky;
+  }
+  100% {
+    background:$bg__night__sky;
+  }
+}
+
+@keyframes sky-turns-black {
+  0% {
+    background: $bg__night__sky;
+  }
+  30% {
+    background: $bg__sky;
+  }
+  70% {
+    background: $bg__sky;
+  }
+  100% {
+    background:$bg__night__sky;
+  }
+}
+
+@-webkit-keyframes pyramide-shading {
+  0% {
+    background: $bg__night__left__side;
+  }
+  30% {
+    background: $bg__dawn__left__side;
+  }
+  70% {
+    background: $bg__afternoon__left__side;
+  }
+  100% {
+    background: $bg__night__left__side;
+  }
+}
+
+@keyframes pyramide-shading {
+  0% {
+    background: $bg__night__left__side;
+  }
+  30% {
+    background: $bg__dawn__left__side;
+  }
+  70% {
+    background: $bg__afternoon__left__side;
+  }
+  100% {
+    background: $bg__night__left__side;
+  }
+}
+
+@-webkit-keyframes fading-sand {
+  0% {
+    background: $bg__night__ground;
+  }
+  30% {
+    background: $bg__dawn__ground;
+  }
+  70% {
+    background: $bg__afternoon__ground;
+  }
+  100% {
+    background: $bg__night__ground;
+  }
+}
+
+@keyframes fading-sand {
+  0% {
+    background: $bg__night__ground;
+  }
+  30% {
+    background: $bg__dawn__ground;
+  }
+  70% {
+    background: $bg__afternoon__ground;
+  }
+  100% {
+    background: $bg__night__ground;
+  }
+}
+
+@-webkit-keyframes shadow-on-the-floor {
+  0% {
+    transform: scaleY(0);
+    -webkit-clip-path: polygon(115px 0%, 231px 0%, 100% 100%);
+            clip-path: polygon(115px 0%, 231px 0%, 100% 100%);
+  }
+  30% {
+    transform: scaleY(1);
+    -webkit-clip-path: polygon(115px 0%, 231px 0%, 80% 100%);
+            clip-path: polygon(115px 0%, 231px 0%, 80% 100%);
+  }
+  55% {
+    transform: scaleY(0.4);
+  }
+  75% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(0);
+    -webkit-clip-path: polygon(115px 0%, 231px 0%, 0% 100%);
+            clip-path: polygon(115px 0%, 231px 0%, 0% 100%);
+  }
+}
+
+@keyframes shadow-on-the-floor {
+  0% {
+    transform: scaleY(0);
+    -webkit-clip-path: polygon(115px 0%, 231px 0%, 100% 100%);
+            clip-path: polygon(115px 0%, 231px 0%, 100% 100%);
+  }
+  30% {
+    transform: scaleY(1);
+    -webkit-clip-path: polygon(115px 0%, 231px 0%, 80% 100%);
+            clip-path: polygon(115px 0%, 231px 0%, 80% 100%);
+  }
+  55% {
+    transform: scaleY(0.4);
+  }
+  75% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(0);
+    -webkit-clip-path: polygon(115px 0%, 231px 0%, 0% 100%);
+            clip-path: polygon(115px 0%, 231px 0%, 0% 100%);
+  }
+}
